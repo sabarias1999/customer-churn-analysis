@@ -27,18 +27,30 @@ This project answers:
 ## Pipeline Architecture
 ---
 
-## Key Findings
+---
 
-| Insight | Finding |
-|---|---|
-| Overall churn rate | 26.5% of customers churned |
-| Highest risk contract | Month-to-month → 42.7% churn rate |
-| Highest risk internet | Fiber Optic → 41.9% churn rate |
-| Highest risk payment | Electronic Check → 45.3% churn rate |
-| Avg tenure at churn | Only 18 months vs 37 months retained |
-| Revenue at risk | $139K+/month from churned customers |
-| Highest risk segment | Month-to-month + Fiber Optic + tenure ≤12mo |
+## Dashboard Preview
 
+### Churn Distribution
+![Churn Distribution](visuals/01_churn_distribution.png)
+
+### Churn by Contract Type
+![Churn by Contract](visuals/02_churn_by_contract.png)
+
+### Tenure Distribution
+![Tenure Distribution](visuals/03_tenure_distribution.png)
+
+### Monthly Charges
+![Monthly Charges](visuals/04_monthly_charges.png)
+
+### Churn by Internet Service
+![Internet Service](visuals/05_churn_by_internet.png)
+
+### Churn by Payment Method
+![Payment Method](visuals/06_churn_by_payment.png)
+
+### Churn Heatmap
+![Heatmap](visuals/07_churn_heatmap.png)
 ---
 
 ## Project Structure
