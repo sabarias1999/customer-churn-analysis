@@ -1,6 +1,16 @@
+"""
+sql_automation.py
+-----------------
+Automated SQL pipeline for Telco Customer Churn Analysis.
+Connects to MySQL, loads engineered features, runs 13 analytical
+queries and exports results to Excel.
+
+Author : Sabari AS
+"""
 import pandas as pd
+import numpy as np
 import mysql.connector
-from sqlalchemy import create_engine
+from sqlalchemy import create_engine z
 import os
 import warnings
 warnings.filterwarnings("ignore")
@@ -35,6 +45,50 @@ df = pd.read_csv(DATA_PATH)
 df["TotalCharges"] = pd.to_numeric(df["TotalCharges"], errors="coerce")
 df["TotalCharges"].fillna(df["TotalCharges"].median(), inplace=True)
 df["Churn_Flag"] = (df["Churn"] == "Yes").astype(int)
+df["TenureBand"] = pd.cut(
+    df["tenure"],
+    bins=[0,12,24,48,72],
+    labels=[
+        "0-12 Months",
+        "13-24 Months",
+        "25-48 Months",
+        "49-72 Months"
+    ]
+)
+df["RevenueTier"] = pd.cut(
+    df["MonthlyCharges"],
+    bins=[0,35,70,120],
+    labels=[
+        "Low",
+        "Medium",
+        "High"
+    ]
+)
+df["CustomerLifetimeValue"] = (
+    df["MonthlyCharges"] *
+    df["tenure"]
+)
+df["RevenueRisk"] = np.where(
+    df["Churn"]=="Yes",
+    df["MonthlyCharges"],
+    0
+)
+df["RiskScore"] = (
+    np.where(df["Contract"]=="Month-to-month",40,0)
+    +
+    np.where(df["InternetService"]=="Fiber optic",30,0)
+    +
+    np.where(df["tenure"]<=12,30,0)
+)
+df["RiskCategory"] = pd.cut(
+    df["RiskScore"],
+    bins=[-1,30,60,100],
+    labels=[
+        "Low",
+        "Medium",
+        "High"
+    ]
+)
 df.columns = df.columns.str.replace(" ", "_").str.lower()
 
 engine = create_engine(
@@ -66,7 +120,11 @@ queries = {
 
     "Q11_crosstab": "SELECT contract, ROUND(AVG(CASE WHEN internetservice='Fiber optic' THEN CASE WHEN churn='Yes' THEN 1.0 ELSE 0 END END)*100,1) AS fiber_churn_pct, ROUND(AVG(CASE WHEN internetservice='DSL' THEN CASE WHEN churn='Yes' THEN 1.0 ELSE 0 END END)*100,1) AS dsl_churn_pct FROM telco_churn GROUP BY contract ORDER BY contract",
 
-    "Q12_cumulative_churn": "SELECT tenure, COUNT(*) AS customers, SUM(CASE WHEN churn='Yes' THEN 1 ELSE 0 END) AS churned, SUM(SUM(CASE WHEN churn='Yes' THEN 1 ELSE 0 END)) OVER (ORDER BY tenure ROWS UNBOUNDED PRECEDING) AS cumulative_churn FROM telco_churn GROUP BY tenure ORDER BY tenure"
+    "Q12_cumulative_churn": "SELECT tenure, COUNT(*) AS customers, SUM(CASE WHEN churn='Yes' THEN 1 ELSE 0 END) AS churned, SUM(SUM(CASE WHEN churn='Yes' THEN 1 ELSE 0 END)) OVER (ORDER BY tenure ROWS UNBOUNDED PRECEDING) AS cumulative_churn FROM telco_churn GROUP BY tenure ORDER BY tenure",
+    
+    "Q13_risk_category":"SELECT riskcategory,COUNT(*) customers,ROUND(AVG(churn_flag)*100,2) churn_rate_pct FROM telco_churn GROUP BY riskcategory ORDER BY churn_rate_pct DESC"
+    
+    "Q14_SELECT  churn,tenureband,COUNT(*) AS customers,ROUND(SUM(monthlycharges), 2) AS total_monthly_revenue,ROUND(AVG(monthlycharges), 2) AS avg_monthly_charges FROM telco_churn GROUP BY churn, tenureband ORDER BY tenureband, churn"
 }
 
 print("\n🔍 Running all 12 queries...")
@@ -86,3 +144,20 @@ print(f"\n✅ Results saved to {OUTPUT_DIR}\\churn_sql_results.xlsx")
 print("\n"+"="*55)
 print("  SQL PIPELINE COMPLETE")
 print("="*55)
+summary = pd.DataFrame({
+    "Metric":[
+        "Total Customers",
+        "Churn Rate",
+        "Revenue At Risk"
+    ],
+    "Value":[
+        len(df),
+        round(df["Churn_Flag"].mean()*100,2),
+        round(df["RevenueRisk"].sum(),2)
+    ]
+})          
+summary.to_excel(
+    writer,
+    sheet_name="Executive_Summary",
+    index=False
+)
