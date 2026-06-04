@@ -1,9 +1,10 @@
-﻿# Customer Churn Analysis
+# Customer Churn Analysis
 
-A comprehensive data analytics project that identifies customer churn patterns and generates actionable business intelligence through automated dashboards, visualizations, and executive reports.
+A complete end-to-end data analytics project identifying customer churn patterns and generating actionable business intelligence through automated dashboards, SQL pipelines, and executive reports.
 
 ![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
 ![Pandas](https://img.shields.io/badge/Pandas-150458?style=for-the-badge&logo=pandas&logoColor=white)
+![MySQL](https://img.shields.io/badge/MySQL-4479A1?style=for-the-badge&logo=mysql&logoColor=white)
 ![Power BI](https://img.shields.io/badge/Power_BI-F2C811?style=for-the-badge&logo=powerbi&logoColor=black)
 ![Streamlit](https://img.shields.io/badge/Streamlit-FF4B4B?style=for-the-badge&logo=streamlit&logoColor=white)
 ![License](https://img.shields.io/badge/License-MIT-yellow.svg)
@@ -13,165 +14,158 @@ A comprehensive data analytics project that identifies customer churn patterns a
 ## 📋 Table of Contents
 
 - [Overview](#-overview)
-- [Key Features](#-key-features)
+- [Key Findings](#-key-findings)
+- [Project Architecture](#-project-architecture)
+- [Project Structure](#-project-structure)
 - [Installation](#-installation)
 - [Quick Start](#-quick-start)
-- [Usage Guide](#-usage-guide)
 - [Key Metrics](#-key-metrics)
 - [Contributing](#-contributing)
+- [Contact](#-contact)
 
 ---
 
 ## 🎯 Overview
 
-<<<<<<< HEAD
+This project analyses 7,043 Telco customer records to uncover what drives churn, quantify the revenue impact, and identify the highest-risk customer segments. It uses Python, SQL, and Power BI to produce professional reports and interactive dashboards.
+
+**What it delivers:**
+- 26.5% overall churn rate identified with $139,130/month revenue at risk
+- 8 publication-ready visualisations across all key churn drivers
+- 14 SQL analytical queries covering cohort analysis, window functions, and risk segmentation
+- Interactive Streamlit dashboard with live filtering and 3 analysis tabs
+- Excel report, HTML dashboard, and Power BI-ready CSV dataset
+
 ---
 
-## Dashboard Preview
-=======
-This project analyzes customer churn data to uncover patterns, identify at-risk customers, and provide strategic recommendations. It leverages Python data science tools to generate professional reports, interactive dashboards, and executive presentations.
+## 📊 Key Findings
 
-**What it does:**
-- Analyzes 7,043+ customer records
-- Identifies 26.5% churn rate with \/month revenue at risk
-- Generates 8 publication-ready visualizations
-- Creates interactive HTML dashboard
-- Exports data for Power BI analysis
-- Generates executive PowerPoint presentations
-- Produces comprehensive Excel reports
->>>>>>> b13575a (docs: upgrade to professional GitHub standards)
+| Driver | Finding | Churn Rate |
+|---|---|---|
+| Contract Type | Month-to-month customers churn at 15x the rate of 2-year contracts | 42.7% vs 2.8% |
+| Internet Service | Fiber Optic drives the highest churn of any service | 41.9% |
+| Payment Method | Electronic check users are the least committed | 45.3% |
+| Tenure | First 12 months are critical — most churn happens here | ~47% |
+| Combined Risk | M-t-M + Fiber Optic + Electronic Check + tenure ≤12 months | 60%+ |
 
-### Churn Distribution
-![Churn Distribution](visuals/01_churn_distribution.png)
+> **Highest-risk profile:** Month-to-month contract + Fiber Optic + Electronic Check + tenure under 12 months — this segment churns at over **60%** and requires immediate intervention.
 
-### Churn by Contract Type
-![Churn by Contract](visuals/02_churn_by_contract.png)
-
-### Tenure Distribution
-![Tenure Distribution](visuals/03_tenure_distribution.png)
-
-### Monthly Charges
-![Monthly Charges](visuals/04_monthly_charges.png)
-
-### Churn by Internet Service
-![Internet Service](visuals/05_churn_by_internet.png)
-
-### Churn by Payment Method
-![Payment Method](visuals/06_churn_by_payment.png)
-
-### Churn Heatmap
-![Heatmap](visuals/07_churn_heatmap.png)
 ---
 
-## ✨ Key Features
+## 🔄 Project Architecture
 
-### 1. Automated Data Pipeline
-- Load and validate customer churn data
-- Calculate 11+ key performance indicators
-- Generate statistical summaries
-
-### 2. Professional Visualizations (8 charts)
-- Churn distribution analysis
-- Churn by contract type
-- Tenure analysis
-- Monthly charges distribution
-- Service type impact analysis
-- Payment method correlation
-- Feature correlation heatmap
-- KPI summary card
-
-### 3. Multi-Format Reporting
-- **Excel**: Detailed reports with multiple sheets
-- **PowerPoint**: Executive presentation
-- **HTML**: Interactive responsive dashboard
-- **Power BI**: CSV dataset for BI tools
-
-### 4. Interactive Applications
-- **Streamlit Dashboard**: Real-time filtering
-- **SQL Pipeline**: Automated data processing
+```
+customer churn.csv
+      │
+      ├── churn_analysis.ipynb      → EDA + 8 visuals saved to visuals/
+      │
+      ├── dashboard_automation.py  → All visuals + Excel + HTML + Power BI CSV
+      │                               saved to dashboard_output/
+      │
+      ├── sql_automation.py        → 14 SQL queries exported to
+      │                               sql_results/churn_sql_results.xlsx
+      │
+      └── app.py                   → Interactive Streamlit dashboard
+                                      (reads Data/ directly)
+```
 
 ---
 
 ## 📁 Project Structure
 
-\\\
+```
 customer-churn-analysis/
 ├── Data/
 │   └── customer churn.csv
 ├── dashboard_output/
+│   ├── churn_dashboard_report.xlsx
+│   ├── churn_dashboard.html
+│   └── powerbi_dataset.csv
+├── sql_results/
+│   └── churn_sql_results.xlsx
 ├── visuals/
-├── dashboard_automation.py
+│   ├── 01_churn_distribution.png
+│   ├── 02_churn_by_contract.png
+│   ├── 03_tenure_distribution.png
+│   ├── 04_monthly_charges.png
+│   ├── 05_churn_by_internet.png
+│   ├── 06_churn_by_payment.png
+│   ├── 07_churn_heatmap.png
+│   └── 08_risk_category.png
 ├── app.py
+├── churn_analysis.ipynb
+├── dashboard_automation.py
+├── sql_automation.py
 ├── requirements.txt
 ├── README.md
-├── CONTRIBUTING.md
-├── CODE_QUALITY.md
-├── CHANGELOG.md
-└── .gitignore
-\\\
+└── CONTRIBUTING.md
+```
 
 ---
 
 ## 📦 Requirements
 
 - **Python**: 3.11+
+- **MySQL**: 8.0+ (for sql_automation.py only)
 - **RAM**: 2GB minimum
-- **Disk Space**: 500MB
 
 ---
 
 ## 🚀 Installation
 
-### Step 1: Clone Repository
-\\\ash
+```bash
+# 1. Clone the repository
 git clone https://github.com/sabarias1999/customer-churn-analysis.git
 cd customer-churn-analysis
-\\\
 
-### Step 2: Create Virtual Environment
-\\\ash
-# Windows
+# 2. Create virtual environment
 python -m venv venv
-venv\Scripts\activate
+venv\Scripts\activate          # Windows
+# source venv/bin/activate     # macOS/Linux
 
-# macOS/Linux
-python3 -m venv venv
-source venv/bin/activate
-\\\
-
-### Step 3: Install Dependencies
-\\\ash
+# 3. Install dependencies
 pip install -r requirements.txt
-\\\
+```
+
+> **Dataset:** Download `customer churn.csv` from [Kaggle — Telco Customer Churn](https://www.kaggle.com/datasets/blastchar/telco-customer-churn) and place it in the `Data/` folder.
 
 ---
 
 ## ⚡ Quick Start
 
-### Run Complete Analysis
-\\\ash
+### Run EDA Notebook
+```bash
+jupyter notebook "churn analysis.ipynb"
+```
+
+### Generate All Dashboards & Reports
+```bash
 python dashboard_automation.py
-\\\
+```
+
+### Run SQL Pipeline (requires MySQL)
+```bash
+python sql_automation.py
+```
 
 ### Launch Interactive Dashboard
-\\\ash
+```bash
 streamlit run app.py
-\\\
+```
 
 ---
 
 ## 📊 Key Metrics
 
-### Customer Metrics
-- Total Customers: 7,043
-- Churned: 1,869 (26.5%)
-- Retained: 5,174 (73.5%)
-- High-Risk: 916 customers
-
-### Revenue Metrics
-- Total Monthly Revenue: \,117
-- Revenue at Risk: \,131/month
-- Revenue Retention: 69.5%
+| Metric | Value |
+|---|---|
+| Total Customers | 7,043 |
+| Churned | 1,869 (26.5%) |
+| Retained | 5,174 (73.5%) |
+| High-Risk Customers | 916 |
+| Total Monthly Revenue | $139,130 |
+| Revenue at Risk | $74,131/month |
+| Revenue Retention Rate | 69.5% |
 
 ---
 
@@ -183,13 +177,10 @@ Contributions are welcome! See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines
 
 ## 📄 License
 
-Licensed under MIT License
+Licensed under the MIT License.
 
 ---
 
-<<<<<<< HEAD
-*Built by [Sabari A S](https://linkedin.com/in/sabari3299) · Open to Data Analyst roles*
-=======
 ## 📬 Contact
 
 - **Email**: sabariisalive@gmail.com
@@ -198,5 +189,4 @@ Licensed under MIT License
 
 ---
 
-**Last Updated:** June 2, 2024 | **Version:** 2.0.0
->>>>>>> b13575a (docs: upgrade to professional GitHub standards)
+**Last Updated:** June 2026 | **Version:** 2.1.0
