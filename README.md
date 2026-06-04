@@ -49,6 +49,63 @@ This project analyses 7,043 Telco customer records to uncover what drives churn,
 | Combined Risk | M-t-M + Fiber Optic + Electronic Check + tenure ≤12 months | 60%+ |
 
 > **Highest-risk profile:** Month-to-month contract + Fiber Optic + Electronic Check + tenure under 12 months — this segment churns at over **60%** and requires immediate intervention.
+## 📊 Power BI Dashboard
+
+An interactive Power BI dashboard is included in this repository.
+
+### Dashboard Features
+
+* Executive KPI Overview
+* Customer Churn Analysis
+* Revenue at Risk Tracking
+* Customer Risk Segmentation
+* Contract & Payment Method Analysis
+* Internet Service Churn Analysis
+* Interactive Filters and Drilldowns
+
+### Open the Dashboard
+
+1. Download `churn_dashboard.pbix`
+2. Install Power BI Desktop (Free)
+3. Open the `.pbix` file
+4. If prompted, update the data source path to:
+
+```text
+Data/customer churn.csv
+```
+
+5. Refresh the dataset
+
+### Key Metrics Included
+
+* Total Customers
+* Churned Customers
+* Churn Rate %
+* Revenue at Risk
+* Revenue Retention Rate
+* High-Risk Customer Count
+* Average Customer Tenure
+* Monthly Revenue
+
+### Dashboard Pages
+
+#### Page 1 — Executive Overview
+
+Executive KPIs, churn trends, revenue impact, and retention summary.
+
+#### Page 2 — Customer Segmentation
+
+Contract analysis, internet service analysis, payment methods, and demographic breakdown.
+
+#### Page 3 — Risk Analysis & Recommendations
+
+Risk categories, high-risk customer segments, business impact analysis, and strategic recommendations.
+
+---
+
+**Built by Sabari A S**
+
+This dashboard was developed as part of an end-to-end Customer Churn Analytics project using Python, SQL, Excel, and Power BI.
 
 ---
 
