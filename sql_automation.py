@@ -23,7 +23,7 @@ warnings.filterwarnings("ignore")
 # ── Config ───────────────────────────────────────────────
 MYSQL_HOST     = "localhost"
 MYSQL_USER     = "root"
-MYSQL_PASSWORD = "1234"
+MYSQL_PASSWORD = "****"
 MYSQL_DB       = "churn_db"
 DATA_PATH      = r"E:\Customer churn\Data\customer churn.csv"
 OUTPUT_DIR     = r"E:\Customer churn\sql_results"
